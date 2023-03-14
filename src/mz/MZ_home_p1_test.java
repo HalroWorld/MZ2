@@ -136,7 +136,7 @@ public class MZ_home_p1_test {
 					try {
 						new MZ_list_p2();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 					frame.setVisible(false);

@@ -2,9 +2,8 @@ package mz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,6 +34,7 @@ public class MZ_list_p2 {
 	private JButton btn_home;
 	private JScrollPane scrollPane;
 	private JPanel list_G;
+	public static int uid;
 
 	MZ_list_p2() {
 		list_p2();
@@ -87,7 +88,7 @@ public class MZ_list_p2 {
 		// 텍스트 변경 안되고 이미지 수정 필요
 		btn_home = new JButton("home");
 		btn_home.setHorizontalAlignment(SwingConstants.RIGHT);
-
+		
 		btn_home.setIcon(new ImageIcon(MZ_list_p2.class.getResource("../Img/home.png")));
 		btn_home.setBorderPainted(false);
 		btn_home.setBackground(new Color(255, 255, 255));
@@ -107,6 +108,7 @@ public class MZ_list_p2 {
 		scrollPane = new JScrollPane(v, h);
 
 		JPanel contentPanel = new JPanel();
+		contentPanel.setSize(1600,700);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		contentPanel.setBackground(new Color(255, 255, 255));
@@ -130,72 +132,70 @@ public class MZ_list_p2 {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 
-				JPanel list_G = new JPanel(new GridBagLayout());
-				GridBagConstraints c = new GridBagConstraints();
-				GridBagConstraints c2 = new GridBagConstraints();
+				JPanel list_m = new JPanel(new BorderLayout());
+				contentPanel.add(list_m);
+				
+				JPanel list_G_N = new JPanel(new FlowLayout());
+				list_G_N.setBackground(Color.white);
 
+				
+				JPanel list_G = new JPanel();
+				list_G.setBackground(Color.white);
+				
 				// 첫번째 행
-				c.gridx = 0;
-				c.gridy = 0;
-				c.gridwidth = 1;
-				c.anchor = GridBagConstraints.WEST;
-				JLabel img1 = new JLabel();
-				img1.setIcon(new ImageIcon(rs.getBytes("mz_img")));
-				list_G.add(img1, c);
-
-				c.gridx = 1;
-				c.gridy = 0;
-				c.gridwidth = 2;
-				JLabel img2 = new JLabel();
+						
+				JLabel img1 = new JLabel("블루");
+				img1.setIcon(new ImageIcon(rs.getBytes("mz_img")));	
+				img1.setForeground(Color.blue);
+				img1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 10, Color.BLACK));
+				list_G_N.add(img1);
+				
+				
+				JLabel img2 = new JLabel("레드");
 				img2.setIcon(new ImageIcon(rs.getBytes("mz_img2")));
-				list_G.add(img2, c);
-
+				img2.setForeground(Color.red);
+				list_G_N.add(img2);
+				
+				list_m.add("North", list_G_N);
 				// 두번째 행
-				c2.gridx = 0;
-				c2.gridy = 1;
-				c2.gridwidth = 1;
-				c2.gridheight = 1;
+				
 				JButton btn_storeName = new JButton(rs.getString("mz_title"));
 				btn_storeName.setForeground(new Color(0, 0, 0));
 				btn_storeName.setHorizontalAlignment(SwingConstants.LEFT);
 				btn_storeName.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 40));
-
 				btn_storeName.setBorderPainted(false);
 				btn_storeName.setBackground(new Color(255, 255, 255));
-				list_G.add(btn_storeName, c2);
-//		  		btn_storeName.addActionListener(new ActionListener() {
-//		  			@Override
-//		  			public void actionPerformed(ActionEvent e) {
-
-//		  				MZ_tbl.num = 1;
-//		  				MZ_DB_Update up = new MZ_DB_Update();
+				list_G.add(btn_storeName);
+		  		btn_storeName.addActionListener(new ActionListener() {
+		  			@Override
+		  			public void actionPerformed(ActionEvent e) {
+		  				try {
+								uid = e.get 
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+		  				
+		  				
 //		  				up.update("update d_mz_tbl set mz_hit=(mz_hit+1) where mz_uid = " + MZ_tbl.num + ";");
-//		  				MZ_menu_p3.main(null);
-//		  				frame2.setVisible(false);
+		  				MZ_menu_p3.main(null);
+		  				frame2.setVisible(false);
 
-//		  			}
-//		  		});
-
-				c2.gridx = 1;
-				c2.gridy = 1;
-				c2.gridwidth = 1;
-				c2.gridheight = 1;
+		  			}
+		  		});
+				
 				JLabel score = new JLabel("별점");
 				score.setBackground(new Color(255, 255, 255));
 				score.setForeground(new Color(39, 39, 39));
 				score.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
-				list_G.add(score, c2);
-
-				c2.gridx = 2;
-				c2.gridy = 1;
-				c2.gridwidth = 1;
-				c2.gridheight = 1;
+				list_G.add(score);
+				
 				JButton btn_More = new JButton("더보기");
 				btn_More.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
 
 				btn_More.setBorderPainted(false);
 				btn_More.setBackground(new Color(255, 255, 255));
-				list_G.add(btn_More, c);
+				list_G.add(btn_More);
 
 //	  		btn_More.addActionListener(new ActionListener() {
 //	  			@Override
@@ -209,83 +209,53 @@ public class MZ_list_p2 {
 //
 //	  			}
 //	  		});
-//  
-				c.gridx = 0;
-				c.gridy = 2;
-				c.gridwidth = 1;
-				c.gridheight = 1;
 				JLabel open_H = new JLabel("영업시간");
 				open_H.setForeground(new Color(0, 0, 0));
 				open_H.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
-				list_G.add(open_H, c);
+				list_G.add(open_H);
 
-				c.gridx = 1;
-				c.gridy = 2;
-				c.gridwidth = 1;
-				c.gridheight = 1;
 				JLabel Hour = new JLabel();
 				Hour.setForeground(new Color(39, 39, 39));
 				Hour.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
-				list_G.add(Hour, c);
+				list_G.add(Hour);
 
-				c.gridx = 2;
-				c.gridy = 2;
-				c.gridwidth = 1;
-				c.gridheight = 1;
 				JLabel reveiw = new JLabel("리뷰");
 				reveiw.setForeground(Color.BLACK);
 				reveiw.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
+				list_G.add(reveiw);
 
-				list_G.add(reveiw, c);
-
-				c.gridx = 3;
-				c.gridy = 2;
-				c.gridwidth = 1;
-				c.gridheight = 1;
 				JLabel reveiw_score = new JLabel();
 				reveiw_score.setForeground(new Color(255, 199, 7));
 				reveiw_score.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
 
-				list_G.add(reveiw_score, c);
+				list_G.add(reveiw_score);
 
-				c.gridx = 4;
-				c.gridy = 2;
-				c.gridwidth = 1;
-				c.gridheight = 1;
+			
 				JLabel veiws = new JLabel("조회수");
 				veiws.setForeground(Color.BLACK);
 				veiws.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
-				list_G.add(veiws, c);
+				list_G.add(veiws);
 
-				c.gridx = 5;
-				c.gridy = 2;
-				c.gridwidth = 1;
-				c.gridheight = 1;
+			
 				JLabel views_score = new JLabel(Integer.toString(rs.getInt("mz_hit")));
 				views_score.setForeground(new Color(39, 39, 39));
 				views_score.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
-				list_G.add(views_score, c);
+				list_G.add(views_score);
 
-				c.gridx = 0;
-				c.gridy = 3;
-				c.weightx = 0.1;
-				c.gridheight = 1;
+			
 				JLabel lblNewLabel = new JLabel("주소");
 				lblNewLabel.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
 
-				list_G.add(lblNewLabel, c);
+				list_G.add(lblNewLabel);
 
-				c.gridx = 1;
-				c.gridy = 3;
-				c.weightx = 0.9;
-				c.gridheight = 1;
+			
 				JLabel addr = new JLabel(rs.getString("mz_addr"));
 				addr.setForeground(new Color(70, 70, 70));
 				addr.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 
 //	  		TitledBorder tb = new TitledBorder(new LineBorder(Color.black));
 ////	  				addr.setBorder()
-				list_G.add(addr, c);
+				list_G.add(addr);
 //
 ////	  		JLabel line = new JLabel(
 ////	  				"-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -335,8 +305,8 @@ public class MZ_list_p2 {
 ////	  		star.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
 ////	  		star.setBounds(436, 356 + 650, 350, 64);
 ////	  		list_G.add(star);
-//	  		
-				contentPanel.add(list_G);
+				list_m.add("Center", list_G);
+				contentPanel.add(list_m);
 			}
 			if (rs != null)
 				rs.close();

@@ -2,22 +2,17 @@ package mz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -43,7 +38,7 @@ public class MZ_menu_p3 {
 	public MZ_menu_p3() {
 		menu_P3();
 	}
-
+	
 	private void menu_P3() {
 		frame3 = new JFrame();
 		frame3.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -53,7 +48,9 @@ public class MZ_menu_p3 {
 		frame3.setLocationRelativeTo(null);
 		frame3.setIconImage(new ImageIcon("src/mz/mzImg/mzduck.png").getImage());
 		frame3.setTitle("맛-ZIP");
-
+		
+		
+		
 		// 전체적인 묶음용 패널임 신경 ㄴㄴ
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -115,96 +112,111 @@ public class MZ_menu_p3 {
 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			String sql = "select * from " + MZ_home_p1_test.code +"mz_tbl where mz_uid='" + MZ_list_p2.uid + "'";
+			String title = "검색하고자 하는 제목";
+      
+      // SQL 쿼리문 작성
+      String sql = "SELECT id FROM mytable WHERE title = ?";
+      
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, title);
+      
+      rs = pstmt.executeQuery();
+      int id;
+      if (rs.next()) {
+        id = rs.getInt("id");
+        System.out.println("검색 결과: " + id);
+      } else {
+        System.out.println("검색 결과가 없습니다.");
+      }
+      
+			sql = "select * from " + MZ_home_p1_test.code +"mz_tbl where mz_uid='" + id + "'";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				
-			
-		
-		// 가게 이름 (리스트3 페이지 타이틀)
-		JLabel store_Name = new JLabel(db.mzList.getMzTitle());
-		store_Name.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 54));
-		store_Name.setBounds(29, 291, 500, 79);
-		panel.add(store_Name);
-
-		// 최상단 메인 사진
-		JLabel main_img = new JLabel();
-		main_img.setIcon(new ImageIcon(db.path[2]));
-		main_img.setBackground(new Color(255, 255, 255));
-		main_img.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 25));
-		main_img.setBounds(1, 0, 1087, 300);
-		panel.add(main_img);
-
-		// 전화 버튼
-		JButton btn_call = new JButton("");
-		btn_call.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/call.png")));
-		btn_call.setBounds(29, 375, 46, 46);
-		btn_call.setBorderPainted(false);
-		btn_call.setBackground(new Color(255, 255, 255));
-		panel.add(btn_call);
-
-		// 지도 버튼
-		JButton btn_lo = new JButton("");
-		btn_lo.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/location1.png")));
-		btn_lo.setBounds(82, 375, 46, 46);
-		btn_lo.setBorderPainted(false);
-		btn_lo.setBackground(new Color(255, 255, 255));
-		btn_lo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Mz_board_map();
+				// 가게 이름 (리스트3 페이지 타이틀)
+				JLabel store_Name = new JLabel);
+				store_Name.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 54));
+				store_Name.setBounds(29, 291, 500, 79);
+				panel.add(store_Name);
+				
+				// 최상단 메인 사진
+				JLabel main_img = new JLabel();
+				main_img.setIcon(new ImageIcon(db.path[2]));
+				main_img.setBackground(new Color(255, 255, 255));
+				main_img.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 25));
+				main_img.setBounds(1, 0, 1087, 300);
+				panel.add(main_img);
+				
+				// 전화 버튼
+				JButton btn_call = new JButton("");
+				btn_call.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/call.png")));
+				btn_call.setBounds(29, 375, 46, 46);
+				btn_call.setBorderPainted(false);
+				btn_call.setBackground(new Color(255, 255, 255));
+				panel.add(btn_call);
+				
+				// 지도 버튼
+				JButton btn_lo = new JButton("");
+				btn_lo.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/location1.png")));
+				btn_lo.setBounds(82, 375, 46, 46);
+				btn_lo.setBorderPainted(false);
+				btn_lo.setBackground(new Color(255, 255, 255));
+				btn_lo.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						new Mz_board_map();
 //				frame.setVisible(false);
-			}
-		});
-		panel.add(btn_lo);
-
-		// 좋아요 버튼
-		JButton btn_like = new JButton("");
-		btn_like.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite1.png")));
+					}
+				});
+				panel.add(btn_lo);
+				
+				// 좋아요 버튼
+				JButton btn_like = new JButton("");
+				btn_like.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite1.png")));
 //		btn_like.setPressedIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite2.png")));
-		btn_like.setBounds(136, 375, 46, 46);
-		btn_like.setBorderPainted(false);
-		btn_like.setBackground(new Color(255, 255, 255));
-
-		btn_like.addActionListener(new ActionListener() {
-			int count = 0;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				count++;
-				if (count % 2 == 1) {
-					btn_like.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite2.png")));
-				} else {
-					btn_like.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite1.png")));
-				}
-			}
-		});
-		panel.add(btn_like);
-
-		// 리뷰 버튼
-		JButton btn_review = new JButton("리뷰");
-		btn_review.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
-		btn_review.setBounds(29, 458, 1027, 59);
-		btn_review.setBackground(new Color(255, 255, 255));
-		btn_review.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Mz_board();
+				btn_like.setBounds(136, 375, 46, 46);
+				btn_like.setBorderPainted(false);
+				btn_like.setBackground(new Color(255, 255, 255));
+				
+				btn_like.addActionListener(new ActionListener() {
+					int count = 0;
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						count++;
+						if (count % 2 == 1) {
+							btn_like.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite2.png")));
+						} else {
+							btn_like.setIcon(new ImageIcon(MZ_menu_p3.class.getResource("/mz/mzImg/favorite1.png")));
+						}
+					}
+				});
+				panel.add(btn_like);
+				
+				// 리뷰 버튼
+				JButton btn_review = new JButton("리뷰");
+				btn_review.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
+				btn_review.setBounds(29, 458, 1027, 59);
+				btn_review.setBackground(new Color(255, 255, 255));
+				btn_review.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						new Mz_board();
 //			frame.setVisible(false);
-			}
-		});
-		panel.add(btn_review);
-
-		String[] stars = { "★", "★★", "★★★", "★★★★", "★★★★★" };
-
-		JComboBox score = new JComboBox(stars);
-		score.setForeground(new Color(255, 199, 7));
+					}
+				});
+				panel.add(btn_review);
+				
+				String[] stars = { "★", "★★", "★★★", "★★★★", "★★★★★" };
+				
+				JComboBox score = new JComboBox(stars);
+				score.setForeground(new Color(255, 199, 7));
 //		score.setModel(new DefaultComboBoxModel(new String[] {"★★★★★","★★★★","★★★","★★","★"}));
-		score.setSelectedIndex(4);
-		score.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-		score.setBounds(204, 380, 190, 41);
+				score.setSelectedIndex(4);
+				score.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+				score.setBounds(204, 380, 190, 41);
 //		score.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //				String selectedItem = score.getSelectedItem().toString();
@@ -213,7 +225,10 @@ public class MZ_menu_p3 {
 //						"update k_mz_tbl set mz_star=(mz_star+" + a + "), mz_star_count=(mz_star_count +1) where mz_uid = 1;");
 //			}
 //		});
-		panel.add(score);
+				panel.add(score);
+			}
+			
+		
 		}
 			if (rs != null)
 				rs.close();
@@ -228,10 +243,7 @@ public class MZ_menu_p3 {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-//		JPanel panel2 = new JPanel();
-//		panel2.setBackground(new Color(255, 255, 255));
-//		panel2.setLayout(null);
-//		frame3.getContentPane().add(panel2, BorderLayout.CENTER);
+
 
 		// 스크롤
 		

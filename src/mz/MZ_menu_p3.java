@@ -78,7 +78,7 @@ public class MZ_menu_p3 {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				new MZ_home_p1_test();
+				new MZ_home_p1();
 				frame3.setVisible(false);
 			}
 		});

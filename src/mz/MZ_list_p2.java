@@ -96,7 +96,7 @@ public class MZ_list_p2 {
 		btn_home.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MZ_home_p1_test();
+				new MZ_home_p1();
 				frame2.setVisible(false);
 
 			}

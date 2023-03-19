@@ -8,7 +8,7 @@ public class MZ_main {
 	public static String code2;
 	
 	public MZ_main() {
-		new MZ_home_p1_test();
+		new MZ_home_p1();
 	}
 
 	public static void main(String[] args) {

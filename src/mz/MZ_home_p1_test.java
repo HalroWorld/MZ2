@@ -29,7 +29,7 @@ public class MZ_home_p1_test {
 	private JButton btn_K;
 	private JButton btn_C, btn_F, btn_AZ, btn_J, btn_D;
 	private JTextField search;
-	public static String code;
+	
 
 	public MZ_home_p1_test() {
 		main_P1();
@@ -45,7 +45,7 @@ public class MZ_home_p1_test {
 		// x버튼 닫기 기능
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 아이콘 이미지
-		frame.setIconImage(new ImageIcon("../Img/mzduck.png").getImage());
+		frame.setIconImage(new ImageIcon("./src/Img/mzduck.png").getImage());
 		// 이름 지정
 		frame.setTitle("맛-ZIP");
 		// 레이아웃을 보더레이아웃으로 지정하고 상하좌우 여백을 50씩 줍니다.
@@ -59,7 +59,7 @@ public class MZ_home_p1_test {
 		// 로고 위치 지정
 		// MZ_logo.setBounds(33, 36, 1002, 124);
 		// 로고 이미지 지정 및 불러오기
-		MZ_logo.setIcon(new ImageIcon(MZ_home_p1_test.class.getResource("../Img/mzducklogo1.png")));
+		MZ_logo.setIcon(new ImageIcon("./src/Img/mzducklogo1.png"));
 		// 로고 가운데 정렬
 		MZ_logo.setHorizontalAlignment(SwingConstants.CENTER);
 		// 로고 라벨을 layout의 상단에 위치
@@ -93,7 +93,7 @@ public class MZ_home_p1_test {
 		// 텍스트 필드 옆에 배치할 버튼을 만들어줍니다.
 		JButton searchBtn = new JButton();
 		// 버튼에 이미지를 넣어줍니다.
-		searchBtn.setIcon(new ImageIcon(MZ_home_p1_test.class.getResource("../Img/se.png")));
+		searchBtn.setIcon(new ImageIcon("./src/Img/se.png"));
 		// 버튼의 색상을 흰색으로 만들어줍니다.
 		searchBtn.setBackground(Color.WHITE);
 		// 그리드의 사이즈 지정(5:1) 검색 버튼은 1의 비율
@@ -128,18 +128,19 @@ public class MZ_home_p1_test {
 			btn.setForeground(new Color(255, 255, 255, 0));
 			btn.setBorderPainted(false);
 			btn.setBackground(Color.WHITE);
-			btn.setIcon(new ImageIcon(MZ_home_p1_test.class.getResource("../Img/" + str[i] + ".png")));
+			btn.setIcon(new ImageIcon("./src/Img/" + str[i] + ".png"));
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					code = e.getActionCommand();
+					MZ_main.code = e.getActionCommand();
 					try {
 						new MZ_list_p2();
+						frame.setVisible(false);
 					} catch (Exception e1) {
 						
 						e1.printStackTrace();
 					}
-					frame.setVisible(false);
+					
 				}
 			});
 			cenSixBtnPn.add(btn);
@@ -179,7 +180,7 @@ public class MZ_home_p1_test {
 
 		// HOME을 위한 버튼을 만들고 배경색 흰색, 글꼴 지정, 이미지를 넣어줍니다.
 		JButton btn_Home = new JButton("");
-		btn_Home.setIcon(new ImageIcon(MZ_home_p1_test.class.getResource("../Img/home.png")));
+		btn_Home.setIcon(new ImageIcon("./src/Img/home.png"));
 		btn_Home.setBackground(Color.WHITE);
 		// 마우스 호버효과
 		btn_Home.addMouseListener(new MouseAdapter() {

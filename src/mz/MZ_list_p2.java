@@ -43,7 +43,6 @@ public class MZ_list_p2 {
 
 	public void list_p2() {
 
-		System.out.println(MZ_home_p1_test.code);
 		// 프레임 호출(이미지 추가, 컬러 추가, 사이즈 및 위치 조정)
 		frame2 = new JFrame();
 		// 프레임 사이즈 지정(x, y,너비,높이)
@@ -53,7 +52,7 @@ public class MZ_list_p2 {
 		// x버튼 닫기 기능
 		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 아이콘 이미지
-		frame2.setIconImage(new ImageIcon(getClass().getResource("../Img/mzduck.png")).getImage());
+		frame2.setIconImage(new ImageIcon("./src/Img/mzduck.png").getImage());
 		// 이름 지정
 		frame2.setTitle("맛-ZIP");
 		// 레이아웃을 보더레이아웃으로 지정하고 상하좌우 여백을 50씩 줍니다.
@@ -66,7 +65,6 @@ public class MZ_list_p2 {
 		frame2.setVisible(true);
 
 		int i = 0;
-		int a = 650 * i;
 
 		// 패널 title_G 호출(사이즈 및 위치 조정, 프레임에 추가)
 		title_G = new JPanel();
@@ -76,7 +74,7 @@ public class MZ_list_p2 {
 		title_G.setLayout(new GridLayout(0, 3, 10, 10));
 
 		// title 라벨 생성(K-푸드 위치 조정, 폰트 변경, 패널에 추가)
-		title = new JLabel(MZ_home_p1_test.code + "- 푸드");
+		title = new JLabel(MZ_main.code + "- 푸드");
 		title.setHorizontalAlignment(SwingConstants.LEFT);
 		title.setBackground(new Color(255, 255, 255));
 		title.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 99));
@@ -93,7 +91,7 @@ public class MZ_list_p2 {
 		// 텍스트 변경 안되고 이미지 수정 필요
 		btn_home = new JButton("home");
 		btn_home.setHorizontalAlignment(SwingConstants.CENTER);
-		btn_home.setIcon(new ImageIcon(MZ_list_p2.class.getResource("../Img/home.png")));
+		btn_home.setIcon(new ImageIcon("./src/Img/home.png"));
 		btn_home.setBackground(new Color(255, 255, 255));
 		btn_home.addActionListener(new ActionListener() {
 			@Override
@@ -118,7 +116,6 @@ public class MZ_list_p2 {
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		frame2.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		MZ_tbl tbl = new MZ_tbl();
 		// db 호출
 		Connection conn = null;
 
@@ -132,8 +129,11 @@ public class MZ_list_p2 {
 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			String sql = "select * from mz_tbl where mz_code='" + MZ_home_p1_test.code + "'";
+			String sql = "select * from mz_tbl where mz_code = ?";
+			String code = MZ_main.code;
+
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, code);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -175,7 +175,9 @@ public class MZ_list_p2 {
 				c.weightx = 0.1;
 				c.fill = GridBagConstraints.BOTH;
 
-				JButton btn_storeName = new JButton(rs.getString("mz_title"));
+				final String[] title = { rs.getString("mz_title") };
+
+				JButton btn_storeName = new JButton(title[0]);
 				btn_storeName.setForeground(new Color(0, 0, 0));
 				btn_storeName.setHorizontalAlignment(SwingConstants.LEFT);
 				btn_storeName.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 40));
@@ -186,21 +188,25 @@ public class MZ_list_p2 {
 				btn_storeName.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						code2 = e.getActionCommand();
+
 						try {
-							new MZ_list_p2();
+							MZ_DB_Update dpUp = new MZ_DB_Update();
+							dpUp.update("update mz_tbl set mz_hit=(mz_hit+1) where mz_title = '" + title[0] + "';");
+							mz.MZ_main.code2 = title[0];
+							MZ_menu_p3.main(null);
+
+							frame2.setVisible(false);
 						} catch (Exception e1) {
 
 							e1.printStackTrace();
 						}
-						frame2.setVisible(false);
-						MZ_menu_p3.main(null);
+
 					}
 				});
 
 				c.gridx = 2;
 				c.gridy = 3;
-				c.gridwidth = 2;
+				c.gridwidth = 1;
 				c.gridheight = 1;
 				c.weightx = 0.1;
 
@@ -211,32 +217,81 @@ public class MZ_list_p2 {
 				score.setBackground(new Color(255, 255, 255));
 
 				list_G.add(score, c);
+				
+				
+				c.gridx = 3;
+				c.gridy = 3;
+				c.gridwidth = 1;
+				c.gridheight = 1;
+				c.weightx = 0.1;
+				
+				JLabel star = new JLabel();
 
+				int total = rs.getInt("mz_star");
+				int count = rs.getInt("mz_star_count");
+				int avg = 0;
+				double avg2 = ((int)(total / (double)count*100))/(double)100;
+				String result;
+
+				if (count == 0) {
+					result = "";
+				} else {
+					avg = (int) total / count;
+				}
+
+				switch (avg) {
+				case 5:
+					result = "★★★★★ (" + avg2 +")";
+					break;
+				case 4:
+					result = "★★★★ (" + avg2 + ")";
+					break;
+				case 3:
+					result = "★★★ (" + avg2 + ")";
+					break;
+				case 2:
+					result = "★★ (" + avg2 + ")";
+					break;
+				case 1:
+					result = "★ (" + avg2 + ")";
+					break;
+				default:
+					result = "평점을 남겨주세요.";
+					break;
+				}
+				System.out.print(result);
+				star.setForeground(new Color(255, 199, 7));
+				star.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
+				star.setText(result);
+				list_G.add(star, c);
+				
 				c.gridx = 4;
 				c.gridy = 3;
 				c.gridwidth = 2;
 				c.gridheight = 1;
 				c.weightx = 0.1;
+
 				JButton btn_More = new JButton("더보기");
 				btn_More.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
-
 				btn_More.setBorderPainted(false);
 				btn_More.setBackground(new Color(255, 255, 255));
+				btn_More.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							MZ_DB_Update dpUp = new MZ_DB_Update();
+							dpUp.update("update mz_tbl set mz_hit=(mz_hit+1) where mz_title = '" + title[0] + "';");
+							mz.MZ_main.code2 = title[0];
+							MZ_menu_p3.main(null);
+							frame2.setVisible(false);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+				});
+
 				list_G.add(btn_More, c);
 
-//           btn_More.addActionListener(new ActionListener() {
-//              @Override
-//              public void actionPerformed(ActionEvent e) {
-
-//                 MZ_DB_Update up = new MZ_DB_Update();
-//                 MZ_tbl.num = 1;
-//                 up.update("update d_mz_tbl set mz_hit=(mz_hit+1) where mz_uid = " + MZ_tbl.num + ";");
-//                 MZ_menu_p3.main(null);
-//                 frame2.setVisible(false);
-//
-//              }
-//           });
-//  
 				c.gridx = 0;
 				c.gridy = 4;
 				c.gridwidth = 1;
@@ -254,7 +309,7 @@ public class MZ_list_p2 {
 				c.gridheight = 1;
 				c.weightx = 0.1;
 				c.fill = GridBagConstraints.BOTH;
-				JLabel Hour = new JLabel();
+				JLabel Hour = new JLabel(rs.getString("mz_hours"));
 				Hour.setForeground(new Color(39, 39, 39));
 				Hour.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
 				list_G.add(Hour, c);
@@ -275,12 +330,11 @@ public class MZ_list_p2 {
 				c.gridwidth = 1;
 				c.gridheight = 1;
 				c.weightx = 0.1;
-				JLabel reveiw_score = new JLabel();
-				reveiw_score.setForeground(new Color(255, 199, 7));
-				reveiw_score.setBackground(new Color(255, 255, 255));
-				reveiw_score.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
-
-				list_G.add(reveiw_score, c);
+				JLabel review_score = new JLabel(Integer.toString(rs.getInt("mz_review")));
+				review_score.setForeground(new Color(255, 199, 7));
+				review_score.setBackground(new Color(255, 255, 255));
+				review_score.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 20));
+				list_G.add(review_score, c);
 
 				c.gridx = 4;
 				c.gridy = 4;
@@ -324,58 +378,8 @@ public class MZ_list_p2 {
 
 				list_G.add(addr, c);
 
-//           TitledBorder tb = new TitledBorder(new LineBorder(Color.black));
-////                 addr.setBorder()
-//
-////           JLabel line = new JLabel(
-////                 "-------------------------------------------------------------------------------------------------------------------------------------------");
-////           line.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-////           line.setBounds(0, 558 + b, 1200, 100);
-////           line.setForeground(new Color(255, 199, 7));
-////           list_G.add(line);
-//
-////           JLabel star;
-//////              star.setHorizontalAlignment(SwingConstants.CENTER);
-////
-////           int total = (int) db.mzList.getMzStar();
-////           int count = db.mzList.getMzStarCount();
-////           int avg = 0;
-////           String result;
-////
-////           if (count == 0) {
-////              result = "";
-////           } else {
-////              avg = (int) total / count;
-////           }
-////
-////           switch (avg) {
-////           case 5:
-////              result = "★★★★★";
-////              break;
-////           case 4:
-////              result = "★★★★";
-////              break;
-////           case 3:
-////              result = "★★★";
-////              break;
-////           case 2:
-////              result = "★★";
-////              break;
-////           case 1:
-////              result = "★";
-////              break;
-////           default:
-////              result = "평점을 남겨주세요.";
-////              break;
-////           }
-////           System.out.print(result);
-////           star = new JLabel(result);
-////
-////           star.setForeground(new Color(255, 199, 7));
-////           star.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
-////           star.setBounds(436, 356 + 650, 350, 64);
-////           list_G.add(별);
-//           
+				
+
 				contentPanel.add(list_G);
 			}
 			if (rs != null)

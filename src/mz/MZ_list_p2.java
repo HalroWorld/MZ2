@@ -217,20 +217,19 @@ public class MZ_list_p2 {
 				score.setBackground(new Color(255, 255, 255));
 
 				list_G.add(score, c);
-				
-				
+
 				c.gridx = 3;
 				c.gridy = 3;
 				c.gridwidth = 1;
 				c.gridheight = 1;
 				c.weightx = 0.1;
-				
+
 				JLabel star = new JLabel();
 
 				int total = rs.getInt("mz_star");
 				int count = rs.getInt("mz_star_count");
 				int avg = 0;
-				double avg2 = ((int)(total / (double)count*100))/(double)100;
+				double avg2 = ((int) (total / (double) count * 100)) / (double) 100;
 				String result;
 
 				if (count == 0) {
@@ -241,7 +240,7 @@ public class MZ_list_p2 {
 
 				switch (avg) {
 				case 5:
-					result = "★★★★★ (" + avg2 +")";
+					result = "★★★★★ (" + avg2 + ")";
 					break;
 				case 4:
 					result = "★★★★ (" + avg2 + ")";
@@ -264,7 +263,7 @@ public class MZ_list_p2 {
 				star.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
 				star.setText(result);
 				list_G.add(star, c);
-				
+
 				c.gridx = 4;
 				c.gridy = 3;
 				c.gridwidth = 2;
@@ -377,8 +376,6 @@ public class MZ_list_p2 {
 				addr.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 
 				list_G.add(addr, c);
-
-				
 
 				contentPanel.add(list_G);
 			}

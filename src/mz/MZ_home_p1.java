@@ -112,7 +112,7 @@ public class MZ_home_p1 {
 
 		List<JButton> btnList = new ArrayList<>();
 
-		String str[] = { "k", "c", "f", "a", "j", "d" };
+		String str[] = { "k", "c", "f", "az", "j", "d" };
 
 		btnList.add(btn_K);
 		btnList.add(btn_C);

@@ -196,6 +196,20 @@ public class MZ_home_p1 {
 				btn_QNA.setBackground(Color.WHITE);
 			}
 		});
+		
+
+		btn_QNA.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
+		btn_QNA.setBackground(Color.WHITE);
+		btn_QNA.setBounds(44, 622, 275, 106);
+		btn_QNA.setBorderPainted(false);
+		btn_QNA.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Mz_qnaBoard();
+//				frame.setVisible(false);
+			}
+		});
+		
 		// 버튼 활성화 테두리 없애기
 		btn_QNA.setBorderPainted(false);
 		// 아래쪽에 위치한 southThreeBtnPn 패널에 버튼을 추가합니다.
@@ -220,6 +234,7 @@ public class MZ_home_p1 {
 				btn_Home.setBackground(Color.WHITE);
 			}
 		});
+		
 		// 버튼 활성화 테두리 없애기
 		btn_Home.setBorderPainted(false);
 		// 아래쪽에 위치한 southThreeBtnPn 패널에 버튼을 추가합니다.

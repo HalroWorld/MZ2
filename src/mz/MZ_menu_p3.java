@@ -68,10 +68,11 @@ public class MZ_menu_p3 {
 
       // 상단 홈버튼
       JButton btn_Home = new JButton("home");
-      btn_Home.setIcon(new ImageIcon("./src/Img/home.png"));
+      btn_Home.setIcon(new ImageIcon("./src/Img/home2.png"));
       btn_Home.setBounds(989, 10, 67, 62);
       btn_Home.setBorderPainted(false);
       btn_Home.setBackground(new Color(255, 255, 255));
+      btn_Home.setForeground(new Color(255, 255, 255, 0));
       panel.add(btn_Home);
       // 첫페이지로 이동
       btn_Home.addActionListener(new ActionListener() {
@@ -85,6 +86,8 @@ public class MZ_menu_p3 {
 
       // 상단 뒤로가기 버튼
       JButton btn_back = new JButton("back");
+      btn_back.setForeground(new Color(255, 255, 255, 0));
+
       // 직전 페이지로 이동
       btn_back.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {

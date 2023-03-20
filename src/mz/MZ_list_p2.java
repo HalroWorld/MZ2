@@ -77,6 +77,7 @@ public class MZ_list_p2 {
 		title = new JLabel(MZ_main.code + "- 푸드");
 		title.setHorizontalAlignment(SwingConstants.LEFT);
 		title.setBackground(new Color(255, 255, 255));
+		title.setForeground(Color.black);
 		title.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 99));
 		title_G.add(title);
 
@@ -91,7 +92,7 @@ public class MZ_list_p2 {
 		// 텍스트 변경 안되고 이미지 수정 필요
 		btn_home = new JButton("home");
 		btn_home.setHorizontalAlignment(SwingConstants.CENTER);
-		btn_home.setIcon(new ImageIcon("./src/Img/home.png"));
+		btn_home.setIcon(new ImageIcon("./src/Img/home2.png"));
 		btn_home.setBackground(new Color(255, 255, 255));
 		btn_home.addActionListener(new ActionListener() {
 			@Override
@@ -298,6 +299,7 @@ public class MZ_list_p2 {
 				c.weightx = 0.1;
 				JLabel open_H = new JLabel("영업시간");
 				open_H.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
+				open_H.setForeground(Color.black);
 				open_H.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 0));
 				open_H.setBackground(new Color(255, 255, 255));
 				list_G.add(open_H, c);

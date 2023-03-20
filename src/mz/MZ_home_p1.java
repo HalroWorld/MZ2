@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import mz.dao.MZ_dbConn;
-
 public class MZ_home_p1 {
 
 	private JFrame frame;
@@ -30,12 +29,15 @@ public class MZ_home_p1 {
 	private JButton btn_C, btn_F, btn_AZ, btn_J, btn_D;
 	private JTextField search;
 	
+	
+	
 
 	public MZ_home_p1() {
 		main_P1();
 	}
 
 	public void main_P1() {
+		final MouseListener mouse;
 		// 프레임 호출(이미지 추가, 컬러 추가, 사이즈 및 위치 조정)
 		frame = new JFrame();
 		// 프레임 사이즈 지정(x, y,너비,높이)
@@ -121,7 +123,25 @@ public class MZ_home_p1 {
 		btnList.add(btn_J);
 		btnList.add(btn_D);
 		int i = 0;
+		
+		mouse = new MouseAdapter() {
+		JButton btn = new JButton();
+		@Override
+		// 마우스 올리면 색이 바뀝니다.
+		public void mouseEntered(MouseEvent e) {
+			btn.setBackground(new Color(255, 242, 197));
+			btn.repaint();
+		}
 
+		@Override
+		// 마우스가 버튼을 벗어나면 흰색으로 돌아옵니다.
+		public void mouseExited(MouseEvent e) {
+			btn.setBackground(Color.WHITE);
+		}
+	};
+		
+		
+		
 		for (JButton btn : btnList) {
 
 			btn = new JButton(str[i]);
@@ -142,10 +162,15 @@ public class MZ_home_p1 {
 					}
 					
 				}
+				
 			});
+			
 			cenSixBtnPn.add(btn);
 			i++;
 		}
+		
+
+		
 
 		cenPn.add("Center", cenSixBtnPn);
 
@@ -180,7 +205,7 @@ public class MZ_home_p1 {
 
 		// HOME을 위한 버튼을 만들고 배경색 흰색, 글꼴 지정, 이미지를 넣어줍니다.
 		JButton btn_Home = new JButton("");
-		btn_Home.setIcon(new ImageIcon("./src/Img/home.png"));
+		btn_Home.setIcon(new ImageIcon("./src/Img/home2.png"));
 		btn_Home.setBackground(Color.WHITE);
 		// 마우스 호버효과
 		btn_Home.addMouseListener(new MouseAdapter() {

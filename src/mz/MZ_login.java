@@ -20,13 +20,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-public class MZ_LoginSignUpForm {
+public class MZ_login {
 
 	private JFrame frame;
 	private JLabel usernameLabel, passwordLabel;
@@ -35,11 +36,11 @@ public class MZ_LoginSignUpForm {
 	private JButton loginButton;
 	private JButton signupButton;
 
-	public MZ_LoginSignUpForm() {
-		LoginSignUpForm();
+	public MZ_login() {
+		Login();
 	}
 
-	public void LoginSignUpForm() {
+	public void Login() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 602, 600);
 		frame.getContentPane().setLayout(new GridLayout(3, 1, 0, 0));
@@ -96,8 +97,10 @@ public class MZ_LoginSignUpForm {
 		c.gridx = 1;
 		c.gridy = 1;
 		passwordField = new JPasswordField(10);
+		passwordField.setEchoChar('*');
 		passwordField.setBorder(new LineBorder(new Color(228, 228, 228), 2, true));
 		passwordField.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 22));
+		passwordField.setForeground(Color.BLACK);
 		panel2.add(passwordField, c);
 
 		JPanel panel3 = new JPanel();
@@ -107,9 +110,22 @@ public class MZ_LoginSignUpForm {
 		loginButton = new JButton("로그인");
 		loginButton.setForeground(new Color(2, 2, 2));
 		loginButton.setBackground(new Color(255, 255, 255));
-		
 
 		panel3.add(loginButton);
+		
+		signupButton = new JButton("회원가입");
+		signupButton.setBackground(new Color(2, 2, 2));
+		signupButton.setBackground(new Color(255, 255, 255));
+		signupButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MZ_signUp();
+				frame.dispose();
+			}
+		});
+		panel3.add(signupButton);
+		
 
 		ActionListener login = new ActionListener() {
 			@Override
@@ -126,17 +142,20 @@ public class MZ_LoginSignUpForm {
 					ResultSet rs = null;
 					String sql = "select * from user_tbl where user_name = ? and user_pwd = ?";
 					String id = usernameField.getText();
-					String pw = passwordField.getText();
-
+					char[] pw = passwordField.getPassword();
+					String pass = new String(pw);
+					
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, id);
-					pstmt.setString(2, pw);
+					pstmt.setString(2, pass);
 					rs = pstmt.executeQuery();
 
 					if (rs.next()) {
-						System.out.println("로그인 되었습니다.");
+						JOptionPane.showMessageDialog(null, "메인 페이지로 이동합니다.", "로그인 성공", 1);
+						new MZ_home_p1();
+						frame.dispose();
 					} else {
-						System.out.println("아이디 또는 비밀번호가 틀렸습니다.");
+						JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "로그인 실패", 1);
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -150,24 +169,21 @@ public class MZ_LoginSignUpForm {
 				}
 			}
 		};
-		
+
 		loginButton.addActionListener(login);
 		usernameField.addActionListener(login);
 		passwordField.addActionListener(login);
 		
-		signupButton = new JButton("회원가입");
-		signupButton.setBackground(new Color(2, 2, 2));
-		signupButton.setBackground(new Color(255, 255, 255));
-		panel3.add(signupButton);
+		
+		
 
 	}
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new MZ_LoginSignUpForm();
-
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				new MZ_login();
+//			}
+//		});
+//	}
 }

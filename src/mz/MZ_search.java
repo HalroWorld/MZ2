@@ -25,62 +25,59 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+public class MZ_search {
 
-public class MZ_list_p2 {
-	// 패널, 프레임 변수 생성
-	private JFrame frame2;
+	private JFrame frame;
 	private JPanel title_G;
 	private JLabel title;
 	private JButton btn_home;
 	private JScrollPane scrollPane;
 	private JPanel list_G;
 	public static String code2;
-
-	MZ_list_p2() {
-		list_p2();
+	
+	MZ_search() {
+		search();
 	}
 
-	public void list_p2() {
+	public void search() {
 
-		// 프레임 호출(이미지 추가, 컬러 추가, 사이즈 및 위치 조정)
-		frame2 = new JFrame();
+		frame = new JFrame();
 		// 프레임 사이즈 지정(x, y,너비,높이)
-		frame2.setBounds(100, 100, 1102, 999);
+		frame.setBounds(100, 100, 1102, 999);
 		// 배경색 흰색
-		frame2.getContentPane().setBackground(new Color(255, 255, 255));
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		// x버튼 닫기 기능
-		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 아이콘 이미지
-		frame2.setIconImage(new ImageIcon("./src/Img/mzduck.png").getImage());
+		frame.setIconImage(new ImageIcon("./src/Img/mzduck.png").getImage());
 		// 이름 지정
-		frame2.setTitle("맛-ZIP");
+		frame.setTitle("맛-ZIP");
 		// 레이아웃을 보더레이아웃으로 지정하고 상하좌우 여백을 50씩 줍니다.
-		frame2.getContentPane().setLayout(new BorderLayout(50, 50));
+		frame.getContentPane().setLayout(new BorderLayout(50, 50));
 		// 프레임 사이즈 고정
-		frame2.setResizable(false);
+		frame.setResizable(false);
 		// frame2 창 띄우자마자 센터로 옮김
-		frame2.setLocationRelativeTo(null);
+		frame.setLocationRelativeTo(null);
 		// frame2 창 띄우기
-		frame2.setVisible(true);
+		frame.setVisible(true);
 
 		// 패널 title_G 호출(사이즈 및 위치 조정, 프레임에 추가)
 		title_G = new JPanel();
-//   title_G.setPreferredSize(new Dimension(100, 200));
+
 		title_G.setBackground(Color.WHITE);
 
 		title_G.setLayout(new GridLayout(0, 3, 10, 10));
 
 		// title 라벨 생성(K-푸드 위치 조정, 폰트 변경, 패널에 추가)
-		title = new JLabel(MZ_main.code + "- 푸드");
+		title = new JLabel("- 푸드");
 		title.setHorizontalAlignment(SwingConstants.LEFT);
 		title.setBackground(new Color(255, 255, 255));
 		title.setForeground(Color.black);
 		title.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 99));
 		title_G.add(title);
 
-		frame2.getContentPane().add(title_G, BorderLayout.NORTH);
+		frame.getContentPane().add(title_G, BorderLayout.NORTH);
 
-		//
 		JPanel noGrid1 = new JPanel();
 		noGrid1.setBackground(new Color(255, 255, 255));
 		title_G.add(noGrid1);
@@ -95,7 +92,7 @@ public class MZ_list_p2 {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MZ_home_p1();
-				frame2.setVisible(false);
+				frame.setVisible(false);
 
 			}
 		});
@@ -112,9 +109,8 @@ public class MZ_list_p2 {
 
 		scrollPane.setViewportView(contentPanel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-		frame2.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		// db 호출
 		Connection conn = null;
 
 		try {
@@ -127,8 +123,9 @@ public class MZ_list_p2 {
 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			String sql = "select * from mz_tbl where mz_code = ?";
-			String code = MZ_main.code;
+			String sql = "SELECT * FROM mz_tbl WHERE mz_title LIKE ?";
+			String code = "%"+MZ_main.code+"%";
+			
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, code);
@@ -174,7 +171,8 @@ public class MZ_list_p2 {
 				c.fill = GridBagConstraints.BOTH;
 
 				final String[] title = { rs.getString("mz_title") };
-
+				final String[] cd =	{ rs.getString("mz_code") };
+				
 				JButton btn_storeName = new JButton(title[0]);
 				btn_storeName.setForeground(new Color(0, 0, 0));
 				btn_storeName.setHorizontalAlignment(SwingConstants.LEFT);
@@ -190,10 +188,12 @@ public class MZ_list_p2 {
 						try {
 							MZ_DB_Update dpUp = new MZ_DB_Update();
 							dpUp.update("update mz_tbl set mz_hit=(mz_hit+1) where mz_title = '" + title[0] + "';");
-							mz.MZ_main.code2 = title[0];
+							mz.MZ_main.code3 = title[0];
+							mz.MZ_main.code = cd[0].toLowerCase();
+							
 							MZ_menu_p3.main(null);
 
-							frame2.setVisible(false);
+							frame.setVisible(false);
 						} catch (Exception e1) {
 
 							e1.printStackTrace();
@@ -278,9 +278,10 @@ public class MZ_list_p2 {
 						try {
 							MZ_DB_Update dpUp = new MZ_DB_Update();
 							dpUp.update("update mz_tbl set mz_hit=(mz_hit+1) where mz_title = '" + title[0] + "';");
-							mz.MZ_main.code2 = title[0];
+							mz.MZ_main.code3 = title[0];
+							mz.MZ_main.code = cd[0].toLowerCase();
 							MZ_menu_p3.main(null);
-							frame2.setVisible(false);
+							frame.setVisible(false);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -392,5 +393,42 @@ public class MZ_list_p2 {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void search(String str) {
+		Connection conn = null;
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			String url = "jdbc:mysql://222.119.100.81:3382/mz";
+			String user1 = "bong";
+			String passwd = "mz1234";
+			conn = DriverManager.getConnection(url, user1, passwd);
+
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT * FROM mz_tbl WHERE mz_title LIKE ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, str);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+
+			}
+
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
+
+		} catch (SQLException e) {
+			System.out.println("데이터베이스 연결이 실패했습니다.<br>");
+			System.out.println("SQLException: " + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

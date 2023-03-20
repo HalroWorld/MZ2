@@ -91,8 +91,13 @@ public class MZ_menu_p3 {
       // 직전 페이지로 이동
       btn_back.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
+        	 if(MZ_main.code3.equals(null)) {
             new MZ_list_p2();
             frame3.setVisible(false);
+            }else {
+            	 new MZ_search();
+               frame3.setVisible(false);
+            }
          }
       });
 

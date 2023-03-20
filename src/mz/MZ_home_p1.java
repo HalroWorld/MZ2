@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +30,15 @@ import javax.swing.SwingConstants;
 public class MZ_home_p1 {
 
 	private JFrame frame;
-	private JButton btn_K;
-	private JButton btn_C, btn_F, btn_AZ, btn_J, btn_D;
+	private JButton btn_C, btn_F, btn_AZ, btn_J, btn_D, btn_K;
 	private JTextField search;
-	
-	
-	
 
 	public MZ_home_p1() {
 		main_P1();
 	}
 
 	public void main_P1() {
-		final MouseListener mouse;
+//		 mouse;
 		// 프레임 호출(이미지 추가, 컬러 추가, 사이즈 및 위치 조정)
 		frame = new JFrame();
 		// 프레임 사이즈 지정(x, y,너비,높이)
@@ -54,7 +55,7 @@ public class MZ_home_p1 {
 		frame.getContentPane().setLayout(new BorderLayout(50, 50));
 		// 프레임 사이즈 고정
 		frame.setResizable(false);
-		// frame2 창 띄우자마자 센터로 옮김	
+		// frame2 창 띄우자마자 센터로 옮김
 		frame.setLocationRelativeTo(null);
 		// 오리 이미지 라벨 생성(이미지 추가, 컬러 추가, 사이즈 및 위치 조정, 프레임에 추가)
 		JLabel MZ_logo = new JLabel("");
@@ -86,6 +87,15 @@ public class MZ_home_p1 {
 		search = new JTextField();
 		// 서치 필드의 글꼴 지정
 		search.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		
+		search.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MZ_main.code = search.getText();
+				new MZ_search();
+				frame.setVisible(false);
+			}
+		});
 		// 그리드의 사이즈 지정(5:1) 텍스트 필드는 5의 비율
 		gbc.weightx = 0.5;// 비율이 0.5:0.1이므로 버튼의 크기는 가로축으로 5배
 		gbc.gridx = 0;
@@ -96,15 +106,25 @@ public class MZ_home_p1 {
 		JButton searchBtn = new JButton();
 		// 버튼에 이미지를 넣어줍니다.
 		searchBtn.setIcon(new ImageIcon("./src/Img/se.png"));
+		// 버튼에 검색 기능 추가
+		searchBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MZ_main.code3 = search.getText();
+				new MZ_search();
+				frame.setVisible(false);
+			}
+		});
 		// 버튼의 색상을 흰색으로 만들어줍니다.
 		searchBtn.setBackground(Color.WHITE);
+
 		// 그리드의 사이즈 지정(5:1) 검색 버튼은 1의 비율
 		gbc.weightx = 0.1; // 비율이 0.5:0.1이므로 버튼의 크기는 가로축으로 1배
 		gbc.gridx = 1;
 		gbc.gridy = 0; // 버튼이 두개로 1,0 가 버튼 생성시작점
 		// cenPnNth 패널에 검색 버튼 추가
 		cenPnNth.add(searchBtn, gbc);
-		// cenPn 패널에 서치 텍스트 필드와 검색 버튼 추가
+		// cenPn 패널에 서치 텍스트 필드와 검색 버튼 추가`
 		cenPn.add("North", cenPnNth);
 
 		// 6개의 버튼을 배치하기 위한 cenSixBtnPn 패널을 만들고 그리드 레이아웃(2행 3열)을 지정합니다.
@@ -122,26 +142,9 @@ public class MZ_home_p1 {
 		btnList.add(btn_AZ);
 		btnList.add(btn_J);
 		btnList.add(btn_D);
-		int i = 0;
-		
-		mouse = new MouseAdapter() {
-		JButton btn = new JButton();
-		@Override
-		// 마우스 올리면 색이 바뀝니다.
-		public void mouseEntered(MouseEvent e) {
-			btn.setBackground(new Color(255, 242, 197));
-			btn.repaint();
-		}
 
-		@Override
-		// 마우스가 버튼을 벗어나면 흰색으로 돌아옵니다.
-		public void mouseExited(MouseEvent e) {
-			btn.setBackground(Color.WHITE);
-		}
-	};
-		
-		
-		
+		int i = 0;
+
 		for (JButton btn : btnList) {
 
 			btn = new JButton(str[i]);
@@ -152,25 +155,19 @@ public class MZ_home_p1 {
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					MZ_main.code = e.getActionCommand();
+					MZ_main.code3 = e.getActionCommand();
 					try {
 						new MZ_list_p2();
 						frame.setVisible(false);
 					} catch (Exception e1) {
-						
 						e1.printStackTrace();
 					}
-					
 				}
-				
 			});
-			
+
 			cenSixBtnPn.add(btn);
 			i++;
 		}
-		
-
-		
 
 		cenPn.add("Center", cenSixBtnPn);
 
@@ -185,6 +182,7 @@ public class MZ_home_p1 {
 		btn_QNA.setBackground(Color.WHITE);
 		// 마우스 호버효과
 		btn_QNA.addMouseListener(new MouseAdapter() {
+
 			@Override
 			// 마우스 올리면 색이 바뀝니다.
 			public void mouseEntered(MouseEvent e) {

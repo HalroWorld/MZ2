@@ -39,10 +39,7 @@ public class Mz_qnaWrite extends JDialog{
 	 * Launch the application.
 	 */
 	
-	
-	
 	public static void main(String[] args) {
-		
 						
 		
 		try {

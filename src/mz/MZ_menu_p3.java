@@ -222,13 +222,12 @@ public class MZ_menu_p3 {
             btn_review.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 30));
             btn_review.setBounds(29, 458, 1027, 59);
             btn_review.setBackground(new Color(255, 255, 255));
-//            btn_review.addActionListener(new ActionListener() {
-//               @Override
-//               public void actionPerformed(ActionEvent e) {
-//                  new Mz_board();
-//                  frame.setVisible(false);
-//               }
-//            });
+            btn_review.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   new MZ_ErrorWindow();
+               }
+            });
             panel.add(btn_review);
 
             // 별

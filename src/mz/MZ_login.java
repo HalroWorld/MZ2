@@ -155,7 +155,7 @@ public class MZ_login {
 						new MZ_home_p1();
 						frame.dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "로그인 실패", 1);
+						JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();

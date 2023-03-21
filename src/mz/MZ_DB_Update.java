@@ -22,7 +22,6 @@ public class MZ_DB_Update {
 
 			int rows = pstmt.executeUpdate();
 			System.out.println("수정된 행 수: " + rows);
-
 			pstmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();

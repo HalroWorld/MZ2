@@ -96,7 +96,6 @@ public class MZ_list_p2 {
 			public void actionPerformed(ActionEvent e) {
 				new MZ_home_p1();
 				frame2.setVisible(false);
-
 			}
 		});
 		btn_home.setBorderPainted(false);

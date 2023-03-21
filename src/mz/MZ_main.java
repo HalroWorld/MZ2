@@ -6,7 +6,7 @@ import java.awt.EventQueue;
 public class MZ_main {
 	public static String code;
 	public static String code2;
-	public static String code3;
+	public static String code3 = null;
 	
 	public MZ_main() {
 		new MZ_login();

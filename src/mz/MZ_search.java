@@ -33,7 +33,7 @@ public class MZ_search {
 	private JButton btn_home;
 	private JScrollPane scrollPane;
 	private JPanel list_G;
-	public static String code2;
+	
 	
 	MZ_search() {
 		search();
@@ -69,11 +69,11 @@ public class MZ_search {
 		title_G.setLayout(new GridLayout(0, 3, 10, 10));
 
 		// title 라벨 생성(K-푸드 위치 조정, 폰트 변경, 패널에 추가)
-		title = new JLabel("- 푸드");
+		title = new JLabel(MZ_main.code3+"에 대한 검색결과");
 		title.setHorizontalAlignment(SwingConstants.LEFT);
 		title.setBackground(new Color(255, 255, 255));
 		title.setForeground(Color.black);
-		title.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 99));
+		title.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 40));
 		title_G.add(title);
 
 		frame.getContentPane().add(title_G, BorderLayout.NORTH);
@@ -91,6 +91,7 @@ public class MZ_search {
 		btn_home.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				MZ_main.code3 = null;
 				new MZ_home_p1();
 				frame.setVisible(false);
 
@@ -124,7 +125,7 @@ public class MZ_search {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			String sql = "SELECT * FROM mz_tbl WHERE mz_title LIKE ?";
-			String code = "%"+MZ_main.code+"%";
+			String code = "%"+MZ_main.code3+"%";
 			
 
 			pstmt = conn.prepareStatement(sql);
@@ -188,7 +189,7 @@ public class MZ_search {
 						try {
 							MZ_DB_Update dpUp = new MZ_DB_Update();
 							dpUp.update("update mz_tbl set mz_hit=(mz_hit+1) where mz_title = '" + title[0] + "';");
-							mz.MZ_main.code3 = title[0];
+							mz.MZ_main.code2 = title[0];
 							mz.MZ_main.code = cd[0].toLowerCase();
 							
 							MZ_menu_p3.main(null);
@@ -278,7 +279,7 @@ public class MZ_search {
 						try {
 							MZ_DB_Update dpUp = new MZ_DB_Update();
 							dpUp.update("update mz_tbl set mz_hit=(mz_hit+1) where mz_title = '" + title[0] + "';");
-							mz.MZ_main.code3 = title[0];
+							mz.MZ_main.code2 = title[0];
 							mz.MZ_main.code = cd[0].toLowerCase();
 							MZ_menu_p3.main(null);
 							frame.setVisible(false);

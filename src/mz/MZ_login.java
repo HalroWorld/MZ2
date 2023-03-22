@@ -151,6 +151,7 @@ public class MZ_login {
 					rs = pstmt.executeQuery();
 
 					if (rs.next()) {
+						MZ_main.id = rs.getString("user_name");
 						JOptionPane.showMessageDialog(null, "메인 페이지로 이동합니다.", "로그인 성공", 1);
 						new MZ_home_p1();
 						frame.dispose();

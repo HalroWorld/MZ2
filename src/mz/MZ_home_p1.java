@@ -233,7 +233,15 @@ public class MZ_home_p1 {
 				btn_Home.setBackground(Color.WHITE);
 			}
 		});
-
+		btn_Home.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new MZ_myPage();
+				
+			}
+		});
 		// 버튼 활성화 테두리 없애기
 		btn_Home.setBorderPainted(false);
 		// 아래쪽에 위치한 southThreeBtnPn 패널에 버튼을 추가합니다.

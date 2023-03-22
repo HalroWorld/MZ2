@@ -82,7 +82,6 @@ public class MZ_menu_p3 {
 				frame3.setVisible(false);
 			}
 		});
-		
 
 		// 상단 뒤로가기 버튼
 		JButton btn_back = new JButton("back");
@@ -94,10 +93,14 @@ public class MZ_menu_p3 {
 				if (MZ_main.code == null) {
 					new MZ_home_p1();
 					frame3.setVisible(false);
-				} else if(MZ_main.code3 != null || MZ_main.code != null){
+				} else if (mz.MZ_main.page == true) {
+					new MZ_myPage();
+					mz.MZ_main.page = false;
+					frame3.setVisible(false);
+				} else if (MZ_main.code3 != null || MZ_main.code != null) {
 					new MZ_list_p2();
 					frame3.setVisible(false);
-				}else {
+				} else {
 					new MZ_search();
 					frame3.setVisible(false);
 				}
@@ -134,12 +137,12 @@ public class MZ_menu_p3 {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-
+				final String[] title2 = { rs.getString("mz_title") };
 				MZ_main.code = rs.getString("mz_code").toLowerCase();
 				final String[] mz_url = { rs.getString("mz_url") };
 
 				// 가게 이름 (리스트3 페이지 타이틀)
-				JLabel store_Name = new JLabel(rs.getString("mz_title"));
+				JLabel store_Name = new JLabel(title2[0]);
 				store_Name.setFont(new Font("배달의민족 한나체 Pro", Font.PLAIN, 54));
 				store_Name.setBounds(29, 291, 500, 79);
 				panel.add(store_Name);
@@ -202,21 +205,36 @@ public class MZ_menu_p3 {
 
 				// 좋아요 버튼
 				JButton btn_like = new JButton("");
-				btn_like.setIcon(new ImageIcon("./src/Img/favorite1.png"));
+
+				MZ_DB_Insert dpIn = new MZ_DB_Insert();
+				int num = dpIn.selete(title2[0], MZ_main.id);
+				System.out.println(num);
+				if (num == 0) {
+					btn_like.setIcon(new ImageIcon("./src/Img/favorite1.png"));
+				} else {
+					btn_like.setIcon(new ImageIcon("./src/Img/favorite2.png"));
+				}
 				btn_like.setBounds(136, 375, 46, 46);
 				btn_like.setBorderPainted(false);
 				btn_like.setBackground(new Color(255, 255, 255));
 
 				btn_like.addActionListener(new ActionListener() {
-					int count = 0;
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						count++;
-						if (count % 2 == 1) {
+						MZ_DB_Insert dpIn = new MZ_DB_Insert();
+						int num = dpIn.selete(title2[0], MZ_main.id);
+						System.out.println(num);
+						if (num == 0) {
 							btn_like.setIcon(new ImageIcon("./src/Img/favorite2.png"));
+
+							dpIn.insert(MZ_main.id, title2[0]);
+							dpIn.update(title2[0], MZ_main.id);
 						} else {
 							btn_like.setIcon(new ImageIcon("./src/Img/favorite1.png"));
+							System.out.println(num);
+							dpIn.delete(title2[0], MZ_main.id);
+
 						}
 					}
 				});

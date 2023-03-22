@@ -7,6 +7,8 @@ public class MZ_main {
 	public static String code;
 	public static String code2;
 	public static String code3 = null;
+	public static String id = null;
+	public static boolean page = false;
 	
 	public MZ_main() {
 		new MZ_login();
